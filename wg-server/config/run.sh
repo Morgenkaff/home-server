@@ -13,7 +13,9 @@ passwd -u ssh-user
 
 wg-quick up wg0
 
-bash dns.sh
+sleep
+
+./dns.sh
 
 sleep infinity &
 

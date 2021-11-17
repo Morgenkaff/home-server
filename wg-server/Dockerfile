@@ -2,11 +2,10 @@ FROM alpine
 
 RUN apk update
 RUN apk add bash
-RUN apk add wireguard-tools
-RUN apk add openssh-server
-RUN apk add curl
-RUN ssh-keygen -A
+RUN apk add openssh-server wireguard-tools
 
+# Some pre SSH setup
+RUN ssh-keygen -A
 RUN adduser -D ssh-user
 
 # WG setup:
