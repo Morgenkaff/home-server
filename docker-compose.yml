@@ -1,0 +1,43 @@
+---
+version: "3.9"
+services:
+  wg-server:
+    image: alpine
+    container_name: wg-server
+    build: wg-server
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Copenhagen
+    volumes:
+      - /lib/modules:/lib/modules
+    ports:
+      - 51820:51820/udp
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+    command: /run.sh
+    restart: unless-stopped
+    networks:
+      - docker-int-net
+
+  torrent-server:
+    image: alpine
+    container_name: torrent-server
+    build: torrent-server
+    volumes:
+      - ./torrent-server/downloads/:/home/trans/downloads/
+      - ./torrent-server/torrents/:/home/trans/torrents/
+    ports:
+      - 9000:9000/tcp
+    command: /run.sh
+    restart: unless-stopped
+    networks:
+      - docker-int-net
+
+networks:
+  docker-int-net:
+    name: docker-int-net
+    driver: bridge

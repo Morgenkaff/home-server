@@ -1,0 +1,12 @@
+
+# Ignore config files with private info
+
+torrent-server/config/wg0.conf
+torrent-server/config/dns.sh
+
+wg-server/config/authorized_keys
+wg-server/config/wg0.conf
+wg-server/config/dns.sh
+wg-server/config/sshd_config
+
+re-build.sh
