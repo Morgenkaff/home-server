@@ -4,6 +4,7 @@
 torrent-server/config/wg0.conf
 torrent-server/config/dns.sh
 torrent-server/config/transmission/settings.json
+torrent-server/config/transmission/stats.json
 
 wg-server/config/authorized_keys
 wg-server/config/wg0.conf
