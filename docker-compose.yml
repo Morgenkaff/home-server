@@ -1,10 +1,10 @@
 ---
-version: "3.9"
+version: "3.0"
 services:
   wg-server:
-    image: alpine
-    container_name: wg-server
     build: "./wg-server"
+    image: wg-server:latest
+    container_name: wg-server
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
@@ -24,29 +24,25 @@ services:
       - docker-int-net
 
   torrent-server:
-    #image: rlesouef/alpine-transmission
-    container_name: torrent-server
     build: "./torrent-server"
+    image: torrent-server:latest
+    container_name: torrent-server
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
     volumes:
-      - ./torrent-server/downloads/:/home/trans/downloads/
-      - ./torrent-server/incomplete/:/home/trans/incomplete/
-      #- ./torrent-server/config/transmission-daemon/:/etc/transmission-daemon/
+      - $PWD/torrent-server/config/transmission:/etc/transmission-daemon
+      - $PWD/torrent-server/downloads:/transmission/downloads
+      - $PWD/torrent-server/incomplete:/transmission/incomplete
+      - $PWD/torrent-server/torrents:/transmission/torrents
     ports:
-      - 9091:9091/tcp
-      - 62040:62040/tcp
-      - 62040:62040/udp
-      - 51821:51821/udp
+      - 5234:5234/udp
     environment:
       - USERNAME="admin"
       - PASSWORD="password"
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Copenhagen
-    volumes:
-      - /lib/modules:/lib/modules
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
     command: /run.sh

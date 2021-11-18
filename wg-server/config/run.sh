@@ -7,13 +7,19 @@ _term() {
 
 trap _term SIGTERM
 
+adduser -D ssh-user
 passwd -u ssh-user
+
+chown ssh-user /home/ssh-user/.ssh
+chown ssh-user /home/ssh-user/.ssh/authorized_keys
+chmod 700 /home/ssh-user/.ssh
+chmod 600 /home/ssh-user/.ssh/authorized_keys
 
 /usr/sbin/sshd
 
 wg-quick up wg0
 
-sleep
+sleep 5
 
 ./dns.sh
 

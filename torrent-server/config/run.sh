@@ -8,12 +8,18 @@ _term() {
 
 trap _term SIGTERM
 
+adduser -D trans
 passwd -u trans
+
+
+chown -R trans:trans /transmission
+chmod -R 775 /transmission
+
+su - trans -c '/usr/bin/transmission-daemon --config-dir /etc/transmission-daemon'
+
 wg-quick up wg0
 
-touch /success
-
-exec /usr/bin/transmission-daemon --foreground --config-dir /etc/transmission-daemon
+./dns.sh
 
 sleep infinity &
 
